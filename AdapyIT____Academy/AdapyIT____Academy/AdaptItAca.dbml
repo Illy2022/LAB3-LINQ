@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="AdaptIT Academy" Class="AdaptItAcaDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=JHBHO-MICSUP023\SQLEXPRESS;Initial Catalog=&quot;AdaptIT Academy&quot;;Integrated Security=True" SettingsObjectName="AdapyIT____Academy.Properties.Settings" SettingsPropertyName="AdaptIT_AcademyConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Training" Member="Trainings">
+    <Type Name="Training">
+      <Column Name="TrainingID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TrainingStartDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="TrainingEndDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="TrainingVenue" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="TrainingVenueTotalSeats" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Training_CourseTraining" Member="CourseTrainings" ThisKey="TrainingID" OtherKey="TrainingID" Type="CourseTraining" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Delegate" Member="Delegates">
+    <Type Name="Delegate">
+      <Column Name="DelegateID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="LastName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="PhoneNumber" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CompanyName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DietaryRequirement" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Delegate_CourseTraining" Member="CourseTrainings" ThisKey="DelegateID" OtherKey="DelegateID" Type="CourseTraining" />
+      <Association Name="Delegate_Address" Member="Addresses" ThisKey="DelegateID" OtherKey="DelegateID" Type="Address" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CourseTraining" Member="CourseTrainings">
+    <Type Name="CourseTraining">
+      <Column Name="CourseTrainingID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CourseCode" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CourseTrainingCost" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
+      <Column Name="RegistraitionClosingDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DelegateID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TrainingID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Delegate_CourseTraining" Member="Delegate" ThisKey="DelegateID" OtherKey="DelegateID" Type="Delegate" IsForeignKey="true" />
+      <Association Name="Training_CourseTraining" Member="Training" ThisKey="TrainingID" OtherKey="TrainingID" Type="Training" IsForeignKey="true" />
+      <Association Name="Course_CourseTraining" Member="Course" ThisKey="CourseCode" OtherKey="CourseCode" Type="Course" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Course" Member="Courses">
+    <Type Name="Course">
+      <Column Name="CourseCode" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CourseName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CourseDescription" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Course_CourseTraining" Member="CourseTrainings" ThisKey="CourseCode" OtherKey="CourseCode" Type="CourseTraining" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Address" Member="Addresses">
+    <Type Name="Address">
+      <Column Name="AddressID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DelegateID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PhysicalAddressLine1" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="PhysicalAddressLine2" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="PhysicalAddressCode" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PostalAddressLine1" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="PostalAddressLine2" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="PostalAddressCode" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Delegate_Address" Member="Delegate" ThisKey="DelegateID" OtherKey="DelegateID" Type="Delegate" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
