@@ -81,6 +81,7 @@ namespace AdapyIT____Academy
             if (action == "2")
             {
 
+                Console.WriteLine("A List Of All Available Courses:");
                 var dlName = from dlt in dbContext.Courses
                              select dlt.CourseName;
 
@@ -89,19 +90,38 @@ namespace AdapyIT____Academy
                     Console.WriteLine("{0}", n);
                 }
 
-                var dlTraining = from tlt in dbContext.Trainings
-                                 select tlt.TrainingStartDate;
-                foreach(DateTime st in dlTraining)
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("Training Registration Closing Date:");
+                var dlClosingDate = from tlt in dbContext.CourseTrainings
+                                select tlt.RegistraitionClosingDate;
+                foreach (DateTime st in dlClosingDate)
                 {
                     Console.WriteLine("{0}", st);
                 }
 
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("Training Start Date:");
+                var dlStartDate = from tlt in dbContext.Trainings
+                                 select tlt.TrainingStartDate;
+                foreach(DateTime st in dlStartDate)
+                {
+                    Console.WriteLine("{0}", st);
+                }
+
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("Training End Date:");
+                var dlEndDate = from tlt in dbContext.Trainings
+                                 select tlt.TrainingEndDate;
+                foreach (DateTime st in dlEndDate)
+                {
+                    Console.WriteLine("{0}", st);
+                }
             }
 
 
 
 
-            Console.WriteLine("************************************************************************************************************************ ");
+            Console.WriteLine("\n************************************************************************************************************************ ");
                 Console.WriteLine("Enter 3 If You Want To Register A New Delegate For The Training: ");
                 action = Console.ReadLine();
                 if (action == "3")
@@ -148,7 +168,7 @@ namespace AdapyIT____Academy
                 }
 
 
-            Console.WriteLine("\n **********************************************************************************************************************");
+            Console.WriteLine("\n**********************************************************************************************************************");
             Console.WriteLine("Enter 4 To Enter Course Details: ");
             action = Console.ReadLine();
             if (action == "4")
@@ -185,7 +205,7 @@ namespace AdapyIT____Academy
                 }
             }
 
-            Console.WriteLine("\n **********************************************************************************************************************");
+            Console.WriteLine("\n**********************************************************************************************************************");
             Console.WriteLine("Enter 5 To Enter Training Details: ");
             action = Console.ReadLine();
             if (action == "5")
@@ -224,6 +244,173 @@ namespace AdapyIT____Academy
 
                 }
             }
+
+
+            Console.WriteLine("\n**********************************************************************************************************************");
+            Console.WriteLine("Enter 6 To Enter Course Training Details: ");
+            action = Console.ReadLine();
+            if (action == "6")
+            {
+                string connString = (@"Data Source=JHBHO-MICSUP023\SQLEXPRESS;Initial Catalog=AdaptIT Academy;Integrated Security=True");
+                using (SqlConnection con = new SqlConnection(connString))
+                {
+                    con.Open();
+                    try
+                    {
+                        Console.Write("\n Connection Successfully Connected");
+
+                        Console.Write("\n Enter The CourseCode: ");
+                        string CourseCode = Console.ReadLine();
+
+                        Console.Write("\n Enter The CourseTrainingCost: ");
+                        decimal CourseTrainingCost = decimal.Parse(Console.ReadLine().ToString());
+
+                        Console.Write("\n Enter The RegistraitionClosingDate: ");
+                        DateTime RegistraitionClosingDate = DateTime.Parse(Console.ReadLine().ToString());
+
+                     
+                        String insertQuery = "INSERT INTO CourseTraining (CourseCode, CourseTrainingCost, RegistraitionClosingDate) " +
+                          "VALUES('" + CourseCode + "','" + CourseTrainingCost + "','" + RegistraitionClosingDate + "')";
+
+                        SqlCommand insertCommand = new SqlCommand(insertQuery, con);
+                        insertCommand.ExecuteNonQuery();
+                        Console.Write("\n Data stored successfully");
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+
+                }
+            }
+
+            Console.WriteLine("\n**********************************************************************************************************************");
+            Console.WriteLine("Enter 7 To Enter Address Details: ");
+            action = Console.ReadLine();
+            if (action == "7")
+            {
+                string connString = (@"Data Source=JHBHO-MICSUP023\SQLEXPRESS;Initial Catalog=AdaptIT Academy;Integrated Security=True");
+                using (SqlConnection con = new SqlConnection(connString))
+                {
+                    con.Open();
+                    try
+                    {
+                        Console.Write("\n Connection Successfully Connected");
+
+                        Console.Write("\n Enter The PhysicalAddressLine1: ");
+                        string PhysicalAddressLine1 = Console.ReadLine();
+
+                        Console.Write("\n Enter The PhysicalAddressLine2: ");
+                        string PhysicalAddressLine2 = Console.ReadLine();
+
+                        Console.Write("\n Enter The PhysicalAddressCode: ");
+                        int PhysicalAddressCode = int.Parse(Console.ReadLine().ToString());
+
+                        Console.Write("\n Enter The PostalAddressLine1: ");
+                        string PostalAddressLine1 = Console.ReadLine();
+
+                        Console.Write("\n Enter The PostalAddressLine2: ");
+                        string PostalAddressLine2 = Console.ReadLine();
+
+                        Console.Write("\n Enter The PostalAddressCode: ");
+                        int PostalAddressCode = int.Parse(Console.ReadLine().ToString());
+
+
+                        String insertQuery = "INSERT INTO Address (PhysicalAddressLine1, PhysicalAddressLine2, PhysicalAddressCode, PostalAddressLine1, PostalAddressLine2, PostalAddressCode) " +
+                               "VALUES('" + PhysicalAddressLine1 + "','" + PhysicalAddressLine2 + "','" + PhysicalAddressCode + "','" + PostalAddressLine1 + "','" + PostalAddressLine2 + "','" + PostalAddressCode + "')";
+
+                        SqlCommand insertCommand = new SqlCommand(insertQuery, con);
+                        insertCommand.ExecuteNonQuery();
+                        Console.Write("\n Data stored successfully");
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+
+                }
+            }
+
+            Console.WriteLine("\n************************************************************************************************************************ ");
+            Console.WriteLine("Enter 8 To Display A List Of All Delegates Registered: ");
+            action = Console.ReadLine();
+            if (action == "8")
+            {
+
+                Console.WriteLine("Registered Deligate Firstnames:");
+                var dlDeliFName = from dlt in dbContext.Delegates
+                                 select dlt.FirstName;
+                foreach (string n in dlDeliFName)
+                {
+                    Console.WriteLine("{0}", n);
+                }
+
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("Registered Deligate Lastnames:");
+                var dlDeliLName = from dlt in dbContext.Delegates
+                                 select dlt.LastName;
+                foreach (string n in dlDeliLName)
+                {
+                    Console.WriteLine("{0}", n);
+                }
+
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("Registered Deligate PhoneNumber Details:");
+                var dlDeliPhoneNum = from dlt in dbContext.Delegates
+                                 select dlt.PhoneNumber;
+                foreach (string n in dlDeliPhoneNum)
+                {
+                    Console.WriteLine("{0}", n);
+                }
+
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("Registered Deligate Email Address Details:");
+                var dlDeliEmail= from dlt in dbContext.Delegates
+                                     select dlt.Email;
+                foreach (string n in dlDeliEmail)
+                {
+                    Console.WriteLine("{0}", n);
+                }
+
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("Registered Deligate Company Name Details:");
+                var dlDeliCompNam = from dlt in dbContext.Delegates
+                                  select dlt.CompanyName;
+                foreach (string n in dlDeliCompNam)
+                {
+                    Console.WriteLine("{0}", n);
+                }
+
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("Registered Deligate Dietary Requirement Details:");
+                var dlDeliDietaryReq = from dlt in dbContext.Delegates
+                                    select dlt.DietaryRequirement;
+                foreach (string n in dlDeliDietaryReq)
+                {
+                    Console.WriteLine("{0}", n);
+                }
+
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("Registered Deligate Physical Address Details:");
+                var dlDeliAdd1 = from dlt in dbContext.Addresses
+                                       select dlt.PhysicalAddressLine1;
+                foreach (string n in dlDeliAdd1
+                {
+                    Console.WriteLine("{0}", n);
+                }
+
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("Registered Deligate Postal Address Details:");
+                var dlDeliAdd2 = from dlt in dbContext.Addresses
+                                select dlt.PostalAddressLine1;
+                foreach (string n in dlDeliAdd2)
+                {
+                    Console.WriteLine("{0}", n);
+                }
+
+
+            }
+
 
 
             Console.ReadKey();
